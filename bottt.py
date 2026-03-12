@@ -1122,13 +1122,20 @@ async def renamerole(ctx, role: discord.Role, *, new_name: str):
 @commands.has_permissions(manage_messages=True)
 async def مسح(ctx, amount: int):
     if amount < 1:
-        await ctx.send("اكتب رقم أكبر من 0.")
+        await ctx.send("اكتب رقم أكبر من 0.", delete_after=3)
         return
 
-    deleted = await ctx.channel.purge(limit=amount + 1)
-    msg = await ctx.send(f"🧹 تم مسح **{len(deleted) - 1}** رسالة.")
-    await asyncio.sleep(3)
-    await msg.delete()
+    if amount > 100:
+        amount = 100
+
+    try:
+        await ctx.message.delete()
+    except Exception:
+        pass
+
+    deleted = await ctx.channel.purge(limit=amount)
+
+    await ctx.send(f"🧹 تم مسح **{len(deleted)}** رسالة.", delete_after=3)
 
 
 @bot.command()
@@ -1387,4 +1394,5 @@ import os
 
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 bot.run(TOKEN)
+
 
