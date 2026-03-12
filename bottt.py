@@ -1382,6 +1382,9 @@ async def on_ready():
 
 
 keep_alive()
-TOKEN = "DISCORD_BOT_TOKEN"
-bot.run("DISCORD_BOT_TOKEN")
+
+import os
+
+TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+bot.run(TOKEN)
 
